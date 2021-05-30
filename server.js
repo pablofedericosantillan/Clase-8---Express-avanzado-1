@@ -7,7 +7,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-
 //0
 app.get('/', (req, res) => {
     res.send('Bienvenido al desafio Entregable de la Clase 8');
@@ -15,27 +14,18 @@ app.get('/', (req, res) => {
 
 // A
 app.get('/api/productos/listar', (req, res) => {
-    if(productos.item.length != 0){
-        res.send(JSON.stringify(productos.item,null,'\t'));
-    }else{
-         res.send( {error: "no hay productos cargados" }) 
-    }
+         res.json(productos.listarTodos()) 
 });
 
 //B
 app.get('/api/productos/listar/:id', (req, res) => {
-    if( req.params.id <= productos.item.length ){
-    res.send(JSON.stringify(productos.item[req.params.id-1],null,'\t'));
-    }else{
-    res.send( {error: "producto no encontrado'" }) 
-    }
+    res.json(productos.BuscarId(req.params.id)) 
 });
-
 
 //C
 app.post('/api/productos/guardar/', (req, res) => {
 productos.item=productos.guardar(req.body)
-res.send(JSON.stringify(productos.item[productos.item.length-1],null,'\t'));
+res.send(req.body);
 });
 
 // pongo a escuchar el servidor en el puerto indicado
